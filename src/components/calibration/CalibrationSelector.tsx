@@ -1,0 +1,8 @@
+import type { CalibrationModel } from "@/types"
+import { Select } from "@/components/ui/select"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { featureLabel, modelTypeLabel } from "@/lib/color"
+import { formatDate, formatNumber } from "@/lib/utils"
+export function CalibrationSelector({ models, value, onChange }: { models: CalibrationModel[]; value?: string; onChange: (id: string) => void }) { const selected = models.find((item) => item.id === value); return <div className="space-y-3"><Select value={value || ""} onChange={(event) => onChange(event.target.value)}><option value="" disabled>选择已保存的标定方案</option>{models.map((model) => <option key={model.id} value={model.id}>{model.isDefault ? "[默认] " : ""}{model.name}</option>)}</Select>{selected && <Card className="shadow-none"><CardContent className="grid gap-4 pt-5 sm:grid-cols-2 lg:grid-cols-4"><Info label="创建时间" value={formatDate(selected.createdAt)} /><Info label="检测范围" value={`${selected.minConcentration}–${selected.maxConcentration} ${selected.concentrationUnit}`} /><Info label="拟合质量" value={`R² ${formatNumber(selected.rSquared, 4)}`} /><Info label="颜色特征" value={featureLabel(selected.feature)} /><Info label="模型" value={modelTypeLabel(selected.modelType)} /><Info label="TMB 批次" value={selected.metadata.tmbBatch || "未填写"} /><Info label="HRP 批次" value={selected.metadata.hrpBatch || "未填写"} /><div className="sm:col-span-2"><Badge variant="success">{modelTypeLabel(selected.modelType)}</Badge></div></CardContent></Card>}</div> }
+function Info({ label, value }: { label: string; value: string }) { return <div><p className="text-xs text-muted-foreground">{label}</p><p className="mt-1 text-sm font-medium">{value}</p></div> }

@@ -1,0 +1,3 @@
+import { FileQuestion } from "lucide-react"
+import { cn } from "@/lib/utils"
+export function EmptyState({ title, description, action, className }: { title: string; description?: string; action?: React.ReactNode; className?: string }) { return <div className={cn("flex min-h-[220px] flex-col items-center justify-center rounded-xl border border-dashed bg-white/60 p-8 text-center", className)}><div className="mb-3 grid h-11 w-11 place-items-center rounded-full bg-slate-100 text-slate-400"><FileQuestion className="h-5 w-5" /></div><h3 className="text-sm font-semibold">{title}</h3>{description && <p className="mt-1 max-w-sm text-xs leading-5 text-muted-foreground">{description}</p>}{action && <div className="mt-4">{action}</div>}</div> }
